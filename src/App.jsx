@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import Footer from './components/Footer'
-
 import Navbar from './components/Navbar'
 import {imageData} from './data'
 import LocomotiveScroll from "locomotive-scroll";
@@ -8,7 +7,9 @@ import "../node_modules/locomotive-scroll/src/locomotive-scroll.scss"
 import { useEffect } from "react";
 import { useRef } from "react";
 import './App.scss'
+
 const Main = lazy( ()=> import ('./components/Main'))
+
 function App() {
   
   const ref = useRef(null);
