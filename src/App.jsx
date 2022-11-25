@@ -2,21 +2,72 @@ import React from 'react'
 import Footer from './components/Footer'
 import Main from './components/Main'
 import Navbar from './components/Navbar'
-import {Routes, Route} from 'react-router-dom'
-
+import {imageData} from './data'
+import LocomotiveScroll from "locomotive-scroll";
+import "../node_modules/locomotive-scroll/src/locomotive-scroll.scss"
+import { useEffect } from "react";
+import { useRef } from "react";
+import './App.scss'
 function App() {
+  
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref) {
+      if (typeof window === "undefined" || !window.document) {
+        return
+      }
+      const scroll = new LocomotiveScroll({
+        el: ref.current,
+        smooth: true,
+        direction: "horizontal",
+        multiplier: 0.5,
+      });
+    }
+  }, []);
+  const images = imageData.map((tupples, index) =>
+    tupples.map((url, elementIndex) => (
+      <Main
+        key={url}
+        src={url}
+        index={elementIndex}
+        columnOffset={index * 14}
+      />
+    ))
+  );
+  if (typeof window === "undefined" || !window.document) {
+    return null
+  }
   
   return (
     <>
-      
-        <Navbar/>
-          <Routes>
-            <Route path='/' element={<Main/>} />
-          </Routes>
-        <Footer/>
-      
+      <div className="top"></div>
+      <Navbar />
+      <div className="main-container">
+        <div className="scroll-container" data-scroll-container ref={ref}>
+          <div className="content">
+            <div className="gallery">
+              {images}
+              <div className="gallery-helper">Scroll to discover more</div>
+              <div className="behind-text fill" data-scroll data-scroll-speed>
+                James Studio Photography
+              </div>
+              <div
+                className="behind-text outline"
+                data-scroll
+                data-scroll-speed
+              >
+                James Studio Photography
+              </div>
+              <div />
+            </div>
+
+            <Footer />
+          </div>
+        </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
 export default App
